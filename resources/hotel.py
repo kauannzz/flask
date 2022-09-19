@@ -3,21 +3,21 @@ from flask_restful import Resource
 #Dicionário 
 hoteis = [
     {
-        'hotei_id': 'alpha',
+        'hotel_id': 'alpha',
         'nome': 'Alpha Hotel',
         'estrelas': 4.3,
         'diaria': 420.34,
         'cidade': 'Rio de Janeiro'
     },
         {
-        'hotei_id': 'bravo',
+        'hotel_id': 'bravo',
         'nome': 'Bravo Hotel',
         'estrelas': 4.4,
         'diaria': 390.90,
         'cidade': 'Santa Catarina'
     },
             {
-        'hotei_id': 'charlie',
+        'hotel_id': 'charlie',
         'nome': 'Charlie Hotel',
         'estrelas': 3.9,
         'diaria': 320.20,
@@ -37,8 +37,6 @@ class Hotel(Resource):
                 return hotel
         return {'message': 'Hotel not found'}, 404 #Status code HTTP 
         
-    pass
-
     def post(self, hotel_id):
         pass #não implementa o código no momento
     
