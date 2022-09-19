@@ -1,4 +1,4 @@
-from flask_restful import Resource
+from flask_restful import Resource, reqparse
 
 #Dicionário 
 hoteis = [
@@ -38,8 +38,25 @@ class Hotel(Resource):
         return {'message': 'Hotel not found'}, 404 #Status code HTTP 
         
     def post(self, hotel_id):
-        pass #não implementa o código no momento
-    
+        argumentos = reqparse.RequestParser()
+        argumentos.add_argument('nome') #pega o nome exato do argumento que quero aceitar
+        argumentos.add_argument('estrelas')
+        argumentos.add_argument('diaria')
+        argumentos.add_argument('cidade')
+        
+        dados = argumentos.parse_args() #passo todos argumentos que foram adicionados
+        
+        novo_hotel = {
+            'hotel_id': hotel_id,
+            'nome': dados['nome'], #acessando pelas chaves - dicionario
+            'estrelas': dados['estrelas'],
+            'diaria': dados['diaria'],
+            'cidade': dados['cidade']
+        }
+        
+        hoteis.append(novo_hotel)
+        return novo_hotel, 200
+        
     def put(self, hotel_id):
         pass
     
