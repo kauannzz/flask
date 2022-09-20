@@ -1,3 +1,4 @@
+from urllib import request
 from flask_restful import Resource, reqparse
 
 #Dicionário 
@@ -78,5 +79,7 @@ class Hotel(Resource):
         
         
         def delete(self, hotel_id):
+            hotel = Hotel.find_hotel(hotel_id)
+            
             pass
     
