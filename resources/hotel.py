@@ -31,35 +31,54 @@ class Hoteis(Resource):
         return {'hoteis': hoteis} #dicionario, na requisição vira json
     
 class Hotel(Resource):
-    def get(self, hotel_id):
-        for hotel in hoteis:
-            if hotel['hotel_id'] == hotel_id:
-                return hotel
-        return {'message': 'Hotel not found'}, 404 #Status code HTTP 
-        
-    def post(self, hotel_id):
+    
         argumentos = reqparse.RequestParser()
         argumentos.add_argument('nome') #pega o nome exato do argumento que quero aceitar
         argumentos.add_argument('estrelas')
         argumentos.add_argument('diaria')
         argumentos.add_argument('cidade')
-        
-        dados = argumentos.parse_args() #passo todos argumentos que foram adicionados
-        
-        novo_hotel = {
-            'hotel_id': hotel_id,
-            'nome': dados['nome'], #acessando pelas chaves - dicionario
-            'estrelas': dados['estrelas'],
-            'diaria': dados['diaria'],
-            'cidade': dados['cidade']
-        }
-        
-        hoteis.append(novo_hotel)
-        return novo_hotel, 200
-        
-    def put(self, hotel_id):
-        pass
     
-    def delete(self, hotel_id):
-        pass
+    
+        def find_hotel(hotel_id):
+            for hotel in hoteis:
+                if hotel['hotel_id'] == hotel_id:
+                    return hotel
+            return None
+        
+        def get(self, hotel_id):
+            hotel = Hotel.find_hotel(hotel_id)
+            if hotel:
+                return hotel
+            return {'message': 'Hotel not found'}, 404 #Status code HTTP 
+        
+        def post(self, hotel_id):
+
+            dados = Hotel.argumentos.parse_args() #passo todos argumentos que foram adicionados
+        
+            novo_hotel = {
+                'hotel_id': hotel_id,
+                'nome': dados['nome'], #acessando pelas chaves - dicionario
+                'estrelas': dados['estrelas'],
+                'diaria': dados['diaria'],
+                'cidade': dados['cidade']
+         }
+        
+            hoteis.append(novo_hotel)
+            return novo_hotel, 200 #Status Code HTTP
+        
+        def put(self, hotel_id):
+            dados = Hotel.argumentos.parse_args() #passo todos argumentos que foram adicionados
+            hotel_novo = {'hotel_id': hotel_id, **dados } #usando kwargs, posso adicionar outro argumento. é sempre restrito aos argumentos definido lá em cima
+            
+            hotel = Hotel.find_hotel(hotel_id)
+            if hotel:
+                hotel.update(hotel_novo)
+                return hotel_novo, 200
+            
+            hoteis.append(hotel_novo)
+            return hotel_novo, 201 #código HTTP criado 
+        
+        
+        def delete(self, hotel_id):
+            pass
     
