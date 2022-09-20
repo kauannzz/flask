@@ -31,14 +31,12 @@ class Hoteis(Resource):
         return {'hoteis': hoteis} #dicionario, na requisição vira json
     
 class Hotel(Resource):
-    
         argumentos = reqparse.RequestParser()
         argumentos.add_argument('nome') #pega o nome exato do argumento que quero aceitar
         argumentos.add_argument('estrelas')
         argumentos.add_argument('diaria')
         argumentos.add_argument('cidade')
-    
-    
+
         def find_hotel(hotel_id):
             for hotel in hoteis:
                 if hotel['hotel_id'] == hotel_id:
